@@ -13,7 +13,7 @@ jobs:
 
   docker-build-and-push:
     needs: load-env
-    runs-on: ubuntu-22.04
+    runs-on: codebuild-AutowareCodeBuild-${{ github.run_id }}-${{ github.run_attempt }}-ubuntu-7.0-large
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -22,6 +22,11 @@ jobs:
         uses: autowarefoundation/autoware-github-actions/set-git-config@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set swap memory
+        uses: actionhippie/swap-space@v1
+        with:
+          size: 15G
 
       - name: Free disk space
         uses: ./.github/actions/free-disk-space
